@@ -22,51 +22,68 @@ export class PromptController extends LitElement {
       flex-direction: column;
       align-items: center;
       justify-content: center;
+      padding: clamp(16px, 2.6vmin, 24px);
+      border-radius: clamp(18px, 2.8vmin, 24px);
+      background: linear-gradient(160deg, rgba(34, 39, 56, 0.85), rgba(22, 25, 36, 0.94));
+      position: relative;
+      border: 1px solid rgba(118, 126, 162, 0.22);
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.04),
+        0 22px 45px rgba(8, 10, 20, 0.65);
+      gap: clamp(12px, 2vmin, 18px);
     }
     weight-knob {
-      width: 70%;
+      width: clamp(140px, 64%, 220px);
       flex-shrink: 0;
     }
     #midi {
       font-family: monospace;
       text-align: center;
-      font-size: 1.5vmin;
-      border: 0.2vmin solid #fff;
-      border-radius: 0.5vmin;
-      padding: 2px 5px;
-      color: #fff;
-      background: #0006;
+      font-size: clamp(11px, 1.4vmin, 14px);
+      border: 1px solid rgba(118, 126, 162, 0.4);
+      border-radius: 999px;
+      padding: 6px 14px;
+      color: var(--text-secondary);
+      background: rgba(16, 20, 30, 0.85);
       cursor: pointer;
       visibility: hidden;
       user-select: none;
-      margin-top: 0.75vmin;
+      margin-top: 0;
+      transition: border-color 0.2s ease, color 0.2s ease, background 0.2s ease,
+        box-shadow 0.2s ease;
       .learn-mode & {
-        color: orange;
-        border-color: orange;
+        color: var(--accent-orange);
+        border-color: rgba(255, 107, 61, 0.6);
+        background: rgba(255, 107, 61, 0.08);
+        box-shadow: 0 0 0 3px rgba(255, 107, 61, 0.18);
       }
       .show-cc & {
         visibility: visible;
       }
     }
     #text {
-      font-weight: 500;
-      font-size: 1.8vmin;
-      max-width: 17vmin;
+      font-weight: 600;
+      font-size: clamp(16px, 1.9vmin, 22px);
+      max-width: clamp(180px, 18vmin, 220px);
       min-width: 2vmin;
-      padding: 0.1em 0.3em;
-      margin-top: 0.5vmin;
+      padding: 6px 16px;
       flex-shrink: 0;
-      border-radius: 0.25vmin;
+      border-radius: 14px;
       text-align: center;
       white-space: pre;
       overflow: hidden;
-      border: none;
+      border: 1px solid rgba(118, 126, 162, 0.24);
       outline: none;
       -webkit-font-smoothing: antialiased;
-      background: #000;
-      color: #fff;
+      background: rgba(15, 18, 26, 0.9);
+      color: var(--text-primary);
+      box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.02),
+        0 12px 24px rgba(0, 0, 0, 0.45);
       &:not(:focus) {
         text-overflow: ellipsis;
+      }
+      &:focus {
+        border-color: rgba(255, 77, 146, 0.7);
+        box-shadow: 0 0 0 3px rgba(255, 77, 146, 0.25);
       }
     }
     :host([filtered]) {
@@ -74,16 +91,18 @@ export class PromptController extends LitElement {
         opacity: 0.5;
       }
       #text {
-        background: #da2000;
+        background: rgba(255, 78, 78, 0.2);
+        border-color: rgba(255, 92, 67, 0.7);
         z-index: 1;
+        color: #ff9f8f;
       }
     }
     @media only screen and (max-width: 600px) {
       #text {
-        font-size: 2.3vmin;
+        font-size: clamp(16px, 2.7vmin, 20px);
       }
       weight-knob {
-        width: 60%;
+        width: min(65%, 200px);
       }
     }
   `;

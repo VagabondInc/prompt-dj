@@ -15,33 +15,47 @@ export class ToastMessage extends LitElement {
       top: 20px;
       left: 50%;
       transform: translateX(-50%);
-      background-color: #000;
-      color: white;
-      padding: 15px;
-      border-radius: 5px;
+      background: rgba(18, 22, 32, 0.92);
+      color: var(--text-primary, #f5f7ff);
+      padding: 18px 22px;
+      border-radius: 18px;
       display: flex;
       align-items: center;
       justify-content: space-between;
-      gap: 15px;
-      width: min(450px, 80vw);
+      gap: 20px;
+      width: min(480px, 82vw);
       transition: transform 0.5s cubic-bezier(0.19, 1, 0.22, 1);
-      border: 2px solid #fff;
-      box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.5);
+      border: 1px solid rgba(118, 126, 162, 0.3);
+      box-shadow: 0 28px 50px rgba(8, 10, 20, 0.55);
+      backdrop-filter: blur(16px);
       text-wrap: pretty;
     }
     button {
-      border-radius: 100px;
+      border-radius: 50%;
       aspect-ratio: 1;
+      width: 32px;
       border: none;
-      color: #000;
+      color: #0e1017;
       cursor: pointer;
+      background: linear-gradient(140deg, var(--accent-orange, #ff6b3d), var(--accent-pink, #fe4d92));
+      font-weight: 600;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+      box-shadow: 0 12px 20px rgba(254, 77, 146, 0.25);
+      display: grid;
+      place-items: center;
+    }
+    button:hover {
+      transform: translateY(-1px) scale(1.05);
+    }
+    button:active {
+      transform: scale(0.95);
     }
     .toast:not(.showing) {
       transition-duration: 1s;
       transform: translate(-50%, -200%);
     }
     a {
-      color: #acacac;
+      color: var(--accent-pink, #fe4d92);
       text-decoration: underline;
     }
   `;

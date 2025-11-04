@@ -25,6 +25,9 @@ export class PromptDjMidi extends LitElement {
       align-items: center;
       box-sizing: border-box;
       position: relative;
+      padding: clamp(24px, 6vmin, 56px);
+      gap: clamp(24px, 4vmin, 48px);
+      color: var(--text-primary);
     }
     #background {
       will-change: background-image;
@@ -32,56 +35,115 @@ export class PromptDjMidi extends LitElement {
       height: 100%;
       width: 100%;
       z-index: -1;
-      background: #111;
+      border-radius: clamp(18px, 4vmin, 36px);
+      overflow: hidden;
+      background: radial-gradient(circle at top left, rgba(143, 107, 255, 0.22), transparent 60%),
+        radial-gradient(circle at bottom right, rgba(254, 109, 77, 0.18), transparent 60%),
+        rgba(12, 14, 21, 0.93);
+      box-shadow: var(--shadow-soft);
+      backdrop-filter: blur(28px);
+    }
+    #background::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border: 1px solid rgba(118, 126, 162, 0.22);
+      border-radius: inherit;
+      mix-blend-mode: lighten;
+      opacity: 0.7;
     }
     #grid {
-      width: 80vmin;
-      height: 80vmin;
+      width: min(1200px, 82vw);
+      aspect-ratio: 1;
       display: grid;
       grid-template-columns: repeat(4, 1fr);
-      gap: 2.5vmin;
-      margin-top: 8vmin;
+      gap: var(--grid-gap);
+      padding: clamp(18px, 2.8vmin, 36px);
     }
     prompt-controller {
       width: 100%;
+      min-height: 0;
     }
     play-pause-button {
       position: relative;
-      width: 15vmin;
+      width: clamp(120px, 14vmin, 160px);
     }
     #buttons {
       position: absolute;
-      top: 0;
-      left: 0;
-      padding: 5px;
+      top: clamp(16px, 4vmin, 40px);
+      left: clamp(18px, 4vmin, 44px);
+      padding: 10px 12px;
+      border-radius: 999px;
       display: flex;
-      gap: 5px;
+      gap: 12px;
+      align-items: center;
+      background: rgba(20, 24, 34, 0.78);
+      border: 1px solid rgba(118, 126, 162, 0.28);
+      box-shadow: 0 18px 40px rgba(0, 0, 0, 0.45);
+      backdrop-filter: blur(18px);
     }
     button {
       font: inherit;
       font-weight: 600;
       cursor: pointer;
-      color: #fff;
-      background: #0002;
+      color: var(--text-primary);
+      background: linear-gradient(140deg, rgba(254, 109, 77, 0.16), rgba(254, 77, 146, 0.18));
       -webkit-font-smoothing: antialiased;
-      border: 1.5px solid #fff;
-      border-radius: 4px;
+      border: 1px solid rgba(254, 109, 77, 0.45);
+      border-radius: 999px;
       user-select: none;
-      padding: 3px 6px;
+      padding: 6px 16px;
+      transition: transform 0.25s ease, box-shadow 0.25s ease, background 0.25s ease;
       &.active {
-        background-color: #fff;
-        color: #000;
+        background: linear-gradient(150deg, var(--accent-orange), var(--accent-pink));
+        color: #0f0f15;
+        box-shadow: 0 12px 24px rgba(254, 109, 77, 0.35);
+      }
+      &:hover {
+        transform: translateY(-1px);
+        box-shadow: 0 14px 22px rgba(254, 109, 77, 0.24);
       }
     }
     select {
       font: inherit;
-      padding: 5px;
-      background: #fff;
-      color: #000;
-      border-radius: 4px;
-      border: none;
+      padding: 6px 36px 6px 14px;
+      background: rgba(20, 24, 34, 0.92);
+      color: var(--text-primary);
+      border-radius: 999px;
+      border: 1px solid rgba(118, 126, 162, 0.28);
       outline: none;
       cursor: pointer;
+      appearance: none;
+      background-image: linear-gradient(45deg, transparent 40%, rgba(254, 77, 146, 0.9) 40%),
+        linear-gradient(135deg, rgba(254, 109, 77, 0.9) 60%, transparent 60%);
+      background-position: calc(100% - 22px) center, calc(100% - 14px) center;
+      background-size: 8px 8px, 8px 8px;
+      background-repeat: no-repeat;
+      transition: border-color 0.2s ease, box-shadow 0.2s ease;
+      &:focus {
+        border-color: rgba(254, 109, 77, 0.6);
+        box-shadow: 0 0 0 3px rgba(254, 109, 77, 0.2);
+      }
+    }
+    @media (max-width: 1024px) {
+      #grid {
+        grid-template-columns: repeat(2, 1fr);
+        width: min(90vw, 700px);
+        aspect-ratio: unset;
+      }
+    }
+    @media (max-width: 640px) {
+      :host {
+        padding: 24px;
+      }
+      #grid {
+        grid-template-columns: 1fr;
+      }
+      #buttons {
+        position: static;
+        align-self: flex-start;
+        margin-top: 0;
+      }
     }
   `;
 
