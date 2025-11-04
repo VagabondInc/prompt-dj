@@ -25,8 +25,8 @@ export class WeightKnob extends LitElement {
       flex-shrink: 0;
       touch-action: none;
       border-radius: 50%;
-      background: radial-gradient(circle at 30% 20%, rgba(255, 255, 255, 0.08), rgba(20, 24, 34, 0.95));
-      box-shadow: inset 0 2px 6px rgba(255, 255, 255, 0.05), 0 18px 45px rgba(6, 8, 15, 0.6);
+      background: radial-gradient(circle at 35% 20%, rgba(255, 255, 255, 0.1), rgba(18, 20, 30, 0.96));
+      box-shadow: inset 0 2px 6px rgba(255, 255, 255, 0.05), 0 16px 32px rgba(6, 8, 15, 0.45);
     }
     svg {
       position: absolute;
@@ -43,10 +43,10 @@ export class WeightKnob extends LitElement {
       width: 100%;
       height: 100%;
       border-radius: 50%;
-      filter: blur(20px);
-      opacity: 0.9;
+      filter: blur(18px);
+      opacity: 0.75;
       mix-blend-mode: screen;
-      transform: scale(2);
+      transform: scale(1.8);
       will-change: transform;
     }
   `;
@@ -129,61 +129,70 @@ export class WeightKnob extends LitElement {
 
     const haloStyle = styleMap({
       display: this.value > 0 ? 'block' : 'none',
-      background: `radial-gradient(circle, ${this.color} 0%, transparent 70%)`,
+      background: `radial-gradient(circle, ${this.color} 0%, transparent 68%)`,
       transform: `scale(${scale})`,
     });
 
-    const idleStroke = 'rgba(118, 126, 162, 0.35)';
+    const idleStroke = 'rgba(118, 126, 162, 0.22)';
+    const innerStroke = 'rgba(118, 126, 162, 0.12)';
     const activeStroke = this.color || 'var(--accent-purple, #8f6bff)';
 
     return html`
       <div id="halo" style=${haloStyle}></div>
-      <!-- Static SVG elements -->
-      ${this.renderStaticSvg()}
-      <!-- SVG elements that move, separated to limit redraws -->
+      ${this.renderStaticSvg(idleStroke, innerStroke)}
       <svg
         viewBox="0 0 80 80"
         @pointerdown=${this.handlePointerDown}
         @wheel=${this.handleWheel}>
+        <defs>
+          <linearGradient id="progressStroke" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color=${activeStroke} stop-opacity="0.5" />
+            <stop offset="45%" stop-color=${activeStroke} stop-opacity="1" />
+            <stop offset="100%" stop-color=${activeStroke} stop-opacity="0.75" />
+          </linearGradient>
+        </defs>
         <g style=${dotStyle}>
-          <circle cx="14" cy="0" r="3" fill=${activeStroke} />
-          <circle cx="14" cy="0" r="6" fill="rgba(10, 12, 18, 0.85)" stroke=${activeStroke} stroke-width="1.2" />
+          <circle cx="12" cy="0" r="3" fill=${activeStroke} />
+          <circle cx="12" cy="0" r="6" fill="rgba(10, 12, 18, 0.9)" stroke=${activeStroke} stroke-width="1.2" />
         </g>
         <path
-          d=${this.describeArc(40, 40, minRot, maxRot, 34.5)}
+          d=${this.describeArc(40, 40, minRot, maxRot, 30)}
           fill="none"
           stroke=${idleStroke}
-          stroke-width="3"
+          stroke-width="4"
           stroke-linecap="round" />
         <path
-          d=${this.describeArc(40, 40, minRot, rot, 34.5)}
+          d=${this.describeArc(40, 40, minRot, rot, 30)}
           fill="none"
-          stroke=${activeStroke}
-          stroke-width="3"
-          stroke-linecap="round" />
+          stroke="url(#progressStroke)"
+          stroke-width="4"
+          stroke-linecap="round"
+          stroke-linejoin="round" />
       </svg>
     `;
   }
   
-  private renderStaticSvg() { 
+  private renderStaticSvg(rimStroke: string, innerStroke: string) { 
     return html`<svg viewBox="0 0 80 80" aria-hidden="true">
       <defs>
-        <radialGradient id="knob-base" cx="50%" cy="35%" r="65%">
-          <stop offset="0%" stop-color="#2a3040" />
-          <stop offset="70%" stop-color="#171c27" />
-          <stop offset="100%" stop-color="#131722" />
+        <radialGradient id="knob-base" cx="50%" cy="30%" r="70%">
+          <stop offset="0%" stop-color="rgba(72, 80, 120, 0.32)" />
+          <stop offset="60%" stop-color="rgba(21, 24, 36, 0.95)" />
+          <stop offset="100%" stop-color="rgba(12, 14, 22, 1)" />
         </radialGradient>
-        <radialGradient id="knob-highlight" cx="30%" cy="25%" r="60%">
+        <radialGradient id="knob-highlight" cx="35%" cy="25%" r="65%">
           <stop offset="0%" stop-color="rgba(255,255,255,0.35)" />
-          <stop offset="60%" stop-color="rgba(255,255,255,0.05)" />
+          <stop offset="45%" stop-color="rgba(255,255,255,0.08)" />
           <stop offset="100%" stop-color="rgba(255,255,255,0)" />
         </radialGradient>
       </defs>
-      <circle cx="40" cy="40" r="39" fill="rgba(14, 17, 24, 0.92)" stroke="rgba(118, 126, 162, 0.25)" stroke-width="1.4" />
-      <circle cx="40" cy="40" r="31" fill="url(#knob-base)" stroke="rgba(75, 82, 112, 0.3)" stroke-width="1.2" />
-      <circle cx="40" cy="40" r="24" fill="rgba(18, 21, 32, 0.85)" stroke="rgba(102, 111, 143, 0.4)" stroke-width="1" />
-      <circle cx="40" cy="34" r="14" fill="url(#knob-highlight)" />
-      <circle cx="40" cy="40" r="10" fill="rgba(12, 14, 22, 0.88)" stroke="rgba(122, 130, 160, 0.35)" stroke-width="1" />
+      <circle cx="40" cy="40" r="38.5" fill="rgba(10, 12, 18, 0.9)" stroke=${rimStroke} stroke-width="1.2" />
+      <circle cx="40" cy="40" r="32.5" fill="url(#knob-base)" stroke=${rimStroke} stroke-width="1.1" />
+      <circle cx="40" cy="40" r="30" fill="none" stroke=${innerStroke} stroke-width="1.4" />
+      <circle cx="40" cy="40" r="23" fill="rgba(16, 18, 28, 0.95)" stroke=${innerStroke} stroke-width="1" />
+      <circle cx="40" cy="40" r="20" fill="rgba(12, 14, 22, 0.95)" stroke="rgba(130, 140, 170, 0.15)" stroke-width="1" />
+      <circle cx="40" cy="32" r="13" fill="url(#knob-highlight)" />
+      <circle cx="40" cy="40" r="9" fill="rgba(8, 9, 14, 0.92)" stroke="rgba(118, 126, 162, 0.22)" stroke-width="0.8" />
     </svg>`
   }
 

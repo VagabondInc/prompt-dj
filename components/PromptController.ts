@@ -22,39 +22,56 @@ export class PromptController extends LitElement {
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      padding: clamp(16px, 2.6vmin, 24px);
-      border-radius: clamp(18px, 2.8vmin, 24px);
-      background: linear-gradient(160deg, rgba(34, 39, 56, 0.85), rgba(22, 25, 36, 0.94));
+      padding: clamp(20px, 2.8vmin, 28px);
+      border-radius: clamp(20px, 3.2vmin, 28px);
       position: relative;
-      border: 1px solid rgba(118, 126, 162, 0.22);
-      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.04),
-        0 22px 45px rgba(8, 10, 20, 0.65);
-      gap: clamp(12px, 2vmin, 18px);
+      overflow: hidden;
+      border: 1px solid rgba(80, 90, 130, 0.25);
+      background: linear-gradient(160deg, rgba(33, 38, 56, 0.95) 0%, rgba(18, 20, 32, 0.98) 64%, rgba(14, 18, 30, 1) 100%);
+      box-shadow:
+        inset 0 0 0 1px rgba(255, 255, 255, 0.04),
+        0 40px 80px rgba(4, 6, 12, 0.65);
+      gap: clamp(14px, 2.2vmin, 20px);
+      isolation: isolate;
+    }
+    .prompt::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at 30% 20%, rgba(122, 140, 255, 0.22), transparent 55%);
+      mix-blend-mode: screen;
+      pointer-events: none;
+      z-index: -1;
     }
     weight-knob {
-      width: clamp(140px, 64%, 220px);
+      width: clamp(120px, 52%, 176px);
+      max-width: 176px;
       flex-shrink: 0;
     }
     #midi {
-      font-family: monospace;
-      text-align: center;
-      font-size: clamp(11px, 1.4vmin, 14px);
-      border: 1px solid rgba(118, 126, 162, 0.4);
+      position: absolute;
+      top: clamp(12px, 1.8vmin, 16px);
+      left: clamp(16px, 2.6vmin, 22px);
+      font-family: 'Inter', var(--font-family);
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      font-size: clamp(10px, 1.2vmin, 11px);
       border-radius: 999px;
       padding: 6px 14px;
-      color: var(--text-secondary);
-      background: rgba(16, 20, 30, 0.85);
+      color: rgba(223, 226, 255, 0.72);
+      background: linear-gradient(120deg, rgba(94, 66, 146, 0.48), rgba(56, 25, 82, 0.68));
       cursor: pointer;
       visibility: hidden;
       user-select: none;
-      margin-top: 0;
       transition: border-color 0.2s ease, color 0.2s ease, background 0.2s ease,
         box-shadow 0.2s ease;
+      border: 1px solid rgba(147, 117, 231, 0.4);
+      box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.08);
       .learn-mode & {
-        color: var(--accent-orange);
-        border-color: rgba(255, 107, 61, 0.6);
-        background: rgba(255, 107, 61, 0.08);
-        box-shadow: 0 0 0 3px rgba(255, 107, 61, 0.18);
+        color: #ffe0c2;
+        border-color: rgba(255, 182, 117, 0.6);
+        background: linear-gradient(120deg, rgba(255, 146, 86, 0.45), rgba(255, 102, 129, 0.55));
+        box-shadow: 0 0 0 3px rgba(255, 155, 100, 0.24);
       }
       .show-cc & {
         visibility: visible;
@@ -62,27 +79,27 @@ export class PromptController extends LitElement {
     }
     #text {
       font-weight: 600;
-      font-size: clamp(16px, 1.9vmin, 22px);
-      max-width: clamp(180px, 18vmin, 220px);
+      font-size: clamp(14px, 1.6vmin, 18px);
+      max-width: clamp(156px, 17vmin, 200px);
       min-width: 2vmin;
-      padding: 6px 16px;
+      padding: 8px 18px;
       flex-shrink: 0;
-      border-radius: 14px;
+      border-radius: 999px;
       text-align: center;
       white-space: pre;
       overflow: hidden;
-      border: 1px solid rgba(118, 126, 162, 0.24);
+      border: none;
       outline: none;
       -webkit-font-smoothing: antialiased;
-      background: rgba(15, 18, 26, 0.9);
+      background: linear-gradient(160deg, rgba(17, 19, 30, 0.85), rgba(36, 40, 58, 0.9));
       color: var(--text-primary);
-      box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.02),
-        0 12px 24px rgba(0, 0, 0, 0.45);
+      box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, 0.07),
+        0 14px 26px rgba(4, 6, 12, 0.45);
       &:not(:focus) {
         text-overflow: ellipsis;
       }
       &:focus {
-        border-color: rgba(255, 77, 146, 0.7);
         box-shadow: 0 0 0 3px rgba(255, 77, 146, 0.25);
       }
     }

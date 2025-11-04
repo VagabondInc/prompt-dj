@@ -32,22 +32,31 @@ body {
   position: relative;
   font-family: var(--font-family);
   font-size: 14px;
-  background: radial-gradient(circle at 10% 10%, rgba(142, 107, 255, 0.18) 0%, transparent 45%),
-    radial-gradient(circle at 92% 18%, rgba(254, 77, 146, 0.22) 0%, transparent 55%),
-    radial-gradient(circle at 50% 90%, rgba(255, 107, 61, 0.16) 0%, transparent 45%),
-    var(--app-bg);
+  background: radial-gradient(circle at -10% 50%, rgba(135, 82, 255, 0.4), transparent 52%),
+    radial-gradient(circle at 12% 12%, rgba(52, 16, 96, 0.62), transparent 45%),
+    radial-gradient(circle at 88% 18%, rgba(254, 77, 146, 0.2), transparent 60%),
+    radial-gradient(circle at 92% 78%, rgba(255, 107, 61, 0.16), transparent 55%),
+    linear-gradient(120deg, #0b0d14 0%, #10131d 45%, #0c0f18 100%);
   color: var(--text-primary);
   overflow: hidden;
 }
 
+body::before,
 body::after {
   content: '';
   position: fixed;
   inset: 0;
   pointer-events: none;
-  background: linear-gradient(160deg, rgba(6, 7, 12, 0.85) 0%, rgba(6, 7, 12, 0.4) 28%, rgba(6, 7, 12, 0.85) 100%);
-  mix-blend-mode: multiply;
   z-index: -1;
+}
+
+body::before {
+  background: linear-gradient(90deg, rgba(20, 8, 40, 0.9) 0%, rgba(20, 8, 40, 0) 32%);
+}
+
+body::after {
+  background: linear-gradient(180deg, rgba(6, 7, 12, 0.78) 0%, rgba(6, 7, 12, 0.2) 45%, rgba(6, 7, 12, 0.85) 100%);
+  mix-blend-mode: multiply;
 }
 
 body.dragging {

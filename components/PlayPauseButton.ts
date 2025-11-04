@@ -17,7 +17,6 @@ export class PlayPauseButton extends LitElement {
       display: flex;
       align-items: center;
       justify-content: center;
-      pointer-events: none;
       filter: drop-shadow(0 28px 38px rgba(0, 0, 0, 0.55));
     }
     :host(:hover) svg {
@@ -31,7 +30,7 @@ export class PlayPauseButton extends LitElement {
     .hitbox {
       pointer-events: all;
       position: absolute;
-      width: 70%;
+      width: 64%;
       aspect-ratio: 1;
       top: 12%;
       border-radius: 50%;

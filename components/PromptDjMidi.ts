@@ -18,47 +18,48 @@ import { MidiDispatcher } from '../utils/MidiDispatcher';
 export class PromptDjMidi extends LitElement {
   static override styles = css`
     :host {
-      height: 100%;
+      min-height: 100%;
+      width: 100%;
       display: flex;
       flex-direction: column;
-      justify-content: center;
       align-items: center;
       box-sizing: border-box;
       position: relative;
-      padding: clamp(24px, 6vmin, 56px);
+      padding: clamp(32px, 6vmin, 72px) clamp(24px, 8vw, 96px);
       gap: clamp(24px, 4vmin, 48px);
       color: var(--text-primary);
     }
     #background {
       will-change: background-image;
       position: absolute;
-      height: 100%;
-      width: 100%;
+      height: calc(100% - clamp(64px, 9vmin, 120px));
+      width: clamp(280px, 92vw, 1280px);
       z-index: -1;
-      border-radius: clamp(18px, 4vmin, 36px);
+      border-radius: clamp(24px, 4vmin, 44px);
       overflow: hidden;
-      background: radial-gradient(circle at top left, rgba(143, 107, 255, 0.22), transparent 60%),
-        radial-gradient(circle at bottom right, rgba(254, 109, 77, 0.18), transparent 60%),
-        rgba(12, 14, 21, 0.93);
-      box-shadow: var(--shadow-soft);
-      backdrop-filter: blur(28px);
+      background:
+        radial-gradient(circle at 15% 15%, rgba(133, 95, 255, 0.2), transparent 65%),
+        radial-gradient(circle at 80% 85%, rgba(254, 109, 77, 0.14), transparent 60%),
+        linear-gradient(145deg, rgba(24, 28, 40, 0.92) 0%, rgba(14, 18, 28, 0.94) 100%);
+      box-shadow: 0 40px 90px rgba(4, 6, 12, 0.75);
+      backdrop-filter: blur(26px);
     }
     #background::after {
       content: '';
       position: absolute;
       inset: 0;
-      border: 1px solid rgba(118, 126, 162, 0.22);
       border-radius: inherit;
+      border: 1px solid rgba(118, 126, 162, 0.22);
       mix-blend-mode: lighten;
-      opacity: 0.7;
+      opacity: 0.6;
     }
     #grid {
-      width: min(1200px, 82vw);
-      aspect-ratio: 1;
+      width: clamp(280px, 92vw, 1280px);
       display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: var(--grid-gap);
-      padding: clamp(18px, 2.8vmin, 36px);
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      grid-auto-rows: minmax(260px, 1fr);
+      gap: clamp(18px, 3vmin, 32px);
+      padding: clamp(24px, 3.6vmin, 44px);
     }
     prompt-controller {
       width: 100%;
@@ -66,18 +67,19 @@ export class PromptDjMidi extends LitElement {
     }
     play-pause-button {
       position: relative;
-      width: clamp(120px, 14vmin, 160px);
+      width: clamp(112px, 12vmin, 140px);
+      margin-top: clamp(16px, 4vmin, 28px);
     }
     #buttons {
       position: absolute;
-      top: clamp(16px, 4vmin, 40px);
-      left: clamp(18px, 4vmin, 44px);
-      padding: 10px 12px;
+      top: clamp(32px, 6vmin, 68px);
+      left: clamp(40px, 11vw, 140px);
+      padding: 10px 14px;
       border-radius: 999px;
       display: flex;
       gap: 12px;
       align-items: center;
-      background: rgba(20, 24, 34, 0.78);
+      background: rgba(20, 24, 34, 0.72);
       border: 1px solid rgba(118, 126, 162, 0.28);
       box-shadow: 0 18px 40px rgba(0, 0, 0, 0.45);
       backdrop-filter: blur(18px);
@@ -126,23 +128,25 @@ export class PromptDjMidi extends LitElement {
       }
     }
     @media (max-width: 1024px) {
-      #grid {
-        grid-template-columns: repeat(2, 1fr);
-        width: min(90vw, 700px);
-        aspect-ratio: unset;
+      :host {
+        padding: clamp(24px, 7vmin, 56px);
+      }
+      #buttons {
+        left: clamp(32px, 6vw, 64px);
       }
     }
-    @media (max-width: 640px) {
-      :host {
-        padding: 24px;
-      }
-      #grid {
-        grid-template-columns: 1fr;
+    @media (max-width: 720px) {
+      #background {
+        height: calc(100% - clamp(120px, 16vmin, 180px));
       }
       #buttons {
         position: static;
-        align-self: flex-start;
-        margin-top: 0;
+        align-self: stretch;
+        justify-content: center;
+        margin-bottom: 12px;
+      }
+      play-pause-button {
+        margin-top: 8px;
       }
     }
   `;
