@@ -22,26 +22,28 @@ export class PromptController extends LitElement {
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      padding: clamp(20px, 2.8vmin, 28px);
-      border-radius: clamp(20px, 3.2vmin, 28px);
+      padding: clamp(18px, 2.6vmin, 24px);
+      border-radius: clamp(18px, 3vmin, 26px);
       position: relative;
       overflow: hidden;
-      border: 1px solid rgba(80, 90, 130, 0.25);
-      background: linear-gradient(160deg, rgba(33, 38, 56, 0.95) 0%, rgba(18, 20, 32, 0.98) 64%, rgba(14, 18, 30, 1) 100%);
+      border: 1px solid rgba(38, 94, 126, 0.5);
+      background: rgba(4, 22, 33, 0.35);
       box-shadow:
-        inset 0 0 0 1px rgba(255, 255, 255, 0.04),
-        0 40px 80px rgba(4, 6, 12, 0.65);
-      gap: clamp(14px, 2.2vmin, 20px);
-      isolation: isolate;
+        inset 0 0 0 1px rgba(111, 232, 255, 0.05),
+        inset 0 -18px 40px rgba(0, 10, 18, 0.7),
+        0 26px 50px rgba(0, 8, 16, 0.45);
+      gap: clamp(14px, 2.2vmin, 18px);
+      backdrop-filter: blur(6px);
     }
     .prompt::before {
       content: '';
       position: absolute;
-      inset: 0;
-      background: radial-gradient(circle at 30% 20%, rgba(122, 140, 255, 0.22), transparent 55%);
-      mix-blend-mode: screen;
+      inset: 12% 18%;
+      border-radius: 30% / 40%;
+      background: radial-gradient(circle at 20% 20%, rgba(111, 232, 255, 0.28), transparent 60%);
+      opacity: 0.55;
+      filter: blur(18px);
       pointer-events: none;
-      z-index: -1;
     }
     weight-knob {
       width: clamp(120px, 52%, 176px);
@@ -79,10 +81,10 @@ export class PromptController extends LitElement {
     }
     #text {
       font-weight: 600;
-      font-size: clamp(14px, 1.6vmin, 18px);
+      font-size: clamp(14px, 1.5vmin, 17px);
       max-width: clamp(156px, 17vmin, 200px);
       min-width: 2vmin;
-      padding: 8px 18px;
+      padding: 6px 18px;
       flex-shrink: 0;
       border-radius: 999px;
       text-align: center;
@@ -91,16 +93,14 @@ export class PromptController extends LitElement {
       border: none;
       outline: none;
       -webkit-font-smoothing: antialiased;
-      background: linear-gradient(160deg, rgba(17, 19, 30, 0.85), rgba(36, 40, 58, 0.9));
-      color: var(--text-primary);
-      box-shadow:
-        inset 0 1px 0 rgba(255, 255, 255, 0.07),
-        0 14px 26px rgba(4, 6, 12, 0.45);
+      background: linear-gradient(140deg, rgba(8, 32, 48, 0.92), rgba(3, 18, 28, 0.98));
+      color: var(--accent-cyan);
+      box-shadow: inset 0 1px 0 rgba(111, 232, 255, 0.25);
       &:not(:focus) {
         text-overflow: ellipsis;
       }
       &:focus {
-        box-shadow: 0 0 0 3px rgba(255, 77, 146, 0.25);
+        box-shadow: 0 0 0 3px rgba(111, 232, 255, 0.25);
       }
     }
     :host([filtered]) {

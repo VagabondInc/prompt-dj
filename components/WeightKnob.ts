@@ -25,8 +25,11 @@ export class WeightKnob extends LitElement {
       flex-shrink: 0;
       touch-action: none;
       border-radius: 50%;
-      background: radial-gradient(circle at 35% 20%, rgba(255, 255, 255, 0.1), rgba(18, 20, 30, 0.96));
-      box-shadow: inset 0 2px 6px rgba(255, 255, 255, 0.05), 0 16px 32px rgba(6, 8, 15, 0.45);
+      background: radial-gradient(circle at 50% 25%, rgba(255, 255, 255, 0.25) 0%, rgba(70, 94, 108, 0.55) 35%, rgba(10, 20, 28, 0.92) 80%);
+      box-shadow:
+        inset 0 2px 4px rgba(255, 255, 255, 0.35),
+        inset 0 -10px 22px rgba(0, 0, 0, 0.55),
+        0 12px 26px rgba(0, 10, 16, 0.45);
     }
     svg {
       position: absolute;
@@ -133,9 +136,9 @@ export class WeightKnob extends LitElement {
       transform: `scale(${scale})`,
     });
 
-    const idleStroke = 'rgba(118, 126, 162, 0.22)';
-    const innerStroke = 'rgba(118, 126, 162, 0.12)';
-    const activeStroke = this.color || 'var(--accent-purple, #8f6bff)';
+    const idleStroke = 'rgba(70, 108, 138, 0.32)';
+    const innerStroke = 'rgba(118, 152, 178, 0.18)';
+    const activeStroke = this.color || '#f0d87d';
 
     return html`
       <div id="halo" style=${haloStyle}></div>
@@ -146,14 +149,14 @@ export class WeightKnob extends LitElement {
         @wheel=${this.handleWheel}>
         <defs>
           <linearGradient id="progressStroke" x1="0%" y1="0%" x2="100%" y2="100%">
-            <stop offset="0%" stop-color=${activeStroke} stop-opacity="0.5" />
-            <stop offset="45%" stop-color=${activeStroke} stop-opacity="1" />
-            <stop offset="100%" stop-color=${activeStroke} stop-opacity="0.75" />
-          </linearGradient>
-        </defs>
+              <stop offset="0%" stop-color=${activeStroke} stop-opacity="0.25" />
+              <stop offset="35%" stop-color=${activeStroke} stop-opacity="1" />
+              <stop offset="100%" stop-color=${activeStroke} stop-opacity="0.6" />
+            </linearGradient>
+          </defs>
         <g style=${dotStyle}>
-          <circle cx="12" cy="0" r="3" fill=${activeStroke} />
-          <circle cx="12" cy="0" r="6" fill="rgba(10, 12, 18, 0.9)" stroke=${activeStroke} stroke-width="1.2" />
+          <circle cx="12" cy="0" r="4" fill=${activeStroke} />
+          <circle cx="12" cy="0" r="6.5" fill="rgba(10, 12, 18, 0.9)" stroke=${activeStroke} stroke-width="1.2" />
         </g>
         <path
           d=${this.describeArc(40, 40, minRot, maxRot, 30)}
@@ -175,10 +178,11 @@ export class WeightKnob extends LitElement {
   private renderStaticSvg(rimStroke: string, innerStroke: string) { 
     return html`<svg viewBox="0 0 80 80" aria-hidden="true">
       <defs>
-        <radialGradient id="knob-base" cx="50%" cy="30%" r="70%">
-          <stop offset="0%" stop-color="rgba(72, 80, 120, 0.32)" />
-          <stop offset="60%" stop-color="rgba(21, 24, 36, 0.95)" />
-          <stop offset="100%" stop-color="rgba(12, 14, 22, 1)" />
+        <radialGradient id="knob-base" cx="50%" cy="35%" r="70%">
+          <stop offset="0%" stop-color="rgba(255,255,255,0.85)" />
+          <stop offset="55%" stop-color="rgba(166, 176, 188, 0.9)" />
+          <stop offset="72%" stop-color="rgba(74, 92, 108, 0.8)" />
+          <stop offset="100%" stop-color="rgba(26, 40, 52, 0.9)" />
         </radialGradient>
         <radialGradient id="knob-highlight" cx="35%" cy="25%" r="65%">
           <stop offset="0%" stop-color="rgba(255,255,255,0.35)" />
@@ -186,13 +190,23 @@ export class WeightKnob extends LitElement {
           <stop offset="100%" stop-color="rgba(255,255,255,0)" />
         </radialGradient>
       </defs>
-      <circle cx="40" cy="40" r="38.5" fill="rgba(10, 12, 18, 0.9)" stroke=${rimStroke} stroke-width="1.2" />
-      <circle cx="40" cy="40" r="32.5" fill="url(#knob-base)" stroke=${rimStroke} stroke-width="1.1" />
-      <circle cx="40" cy="40" r="30" fill="none" stroke=${innerStroke} stroke-width="1.4" />
-      <circle cx="40" cy="40" r="23" fill="rgba(16, 18, 28, 0.95)" stroke=${innerStroke} stroke-width="1" />
-      <circle cx="40" cy="40" r="20" fill="rgba(12, 14, 22, 0.95)" stroke="rgba(130, 140, 170, 0.15)" stroke-width="1" />
-      <circle cx="40" cy="32" r="13" fill="url(#knob-highlight)" />
-      <circle cx="40" cy="40" r="9" fill="rgba(8, 9, 14, 0.92)" stroke="rgba(118, 126, 162, 0.22)" stroke-width="0.8" />
+      <circle cx="40" cy="40" r="38.5" fill="rgba(21, 36, 48, 0.95)" stroke=${rimStroke} stroke-width="1.2" />
+      <circle cx="40" cy="40" r="34" fill="url(#knob-base)" stroke=${rimStroke} stroke-width="1.1" />
+      ${[0, 30, 60, 90, 120, 150].map(
+        (deg) =>
+          html`<line
+            x1="40"
+            y1="10"
+            x2="40"
+            y2="16"
+            stroke="rgba(50,65,78,0.85)"
+            stroke-width="1.5"
+            transform="rotate(${deg} 40 40)" />`,
+      )}
+      <circle cx="40" cy="40" r="26" fill="rgba(34, 49, 60, 0.88)" stroke=${innerStroke} stroke-width="1.2" />
+      <circle cx="40" cy="40" r="20.5" fill="rgba(17, 26, 34, 0.95)" stroke="rgba(165, 188, 204, 0.18)" stroke-width="1" />
+      <circle cx="40" cy="32" r="14" fill="url(#knob-highlight)" />
+      <circle cx="40" cy="40" r="9.5" fill="rgba(12, 18, 24, 0.95)" stroke="rgba(180, 192, 205, 0.22)" stroke-width="0.8" />
     </svg>`
   }
 

@@ -4,9 +4,7 @@
 */
 import { css, html, LitElement } from 'lit';
 import { customElement, property, state } from 'lit/decorators.js';
-import { styleMap } from 'lit/directives/style-map.js';
 
-import { throttle } from '../utils/throttle';
 
 import './PromptController';
 import './PlayPauseButton';
@@ -25,41 +23,55 @@ export class PromptDjMidi extends LitElement {
       align-items: center;
       box-sizing: border-box;
       position: relative;
-      padding: clamp(32px, 6vmin, 72px) clamp(24px, 8vw, 96px);
-      gap: clamp(24px, 4vmin, 48px);
+      padding: clamp(48px, 7vmin, 96px) clamp(24px, 8vw, 96px);
+      gap: clamp(32px, 4.2vmin, 56px);
       color: var(--text-primary);
     }
-    #background {
-      will-change: background-image;
-      position: absolute;
-      height: calc(100% - clamp(64px, 9vmin, 120px));
-      width: clamp(280px, 92vw, 1280px);
-      z-index: -1;
-      border-radius: clamp(24px, 4vmin, 44px);
-      overflow: hidden;
-      background:
-        radial-gradient(circle at 15% 15%, rgba(133, 95, 255, 0.2), transparent 65%),
-        radial-gradient(circle at 80% 85%, rgba(254, 109, 77, 0.14), transparent 60%),
-        linear-gradient(145deg, rgba(24, 28, 40, 0.92) 0%, rgba(14, 18, 28, 0.94) 100%);
-      box-shadow: 0 40px 90px rgba(4, 6, 12, 0.75);
-      backdrop-filter: blur(26px);
+    h1 {
+      font-family: var(--font-heading);
+      font-size: clamp(32px, 5vw, 58px);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      margin: 0;
+      text-align: center;
+      color: var(--accent-cyan);
+      text-shadow: 0 10px 40px rgba(14, 62, 91, 0.9);
     }
-    #background::after {
+    .subheading {
+      font-family: var(--font-heading);
+      font-size: clamp(16px, 2.2vw, 22px);
+      letter-spacing: 0.04em;
+      text-align: center;
+      color: var(--text-secondary);
+      max-width: clamp(360px, 70vw, 600px);
+    }
+    #console {
+      width: clamp(340px, 94vw, 1360px);
+      border-radius: clamp(26px, 4vmin, 42px);
+      background: var(--case-bg);
+      box-shadow: var(--shadow-soft), inset 0 0 0 1px rgba(99, 165, 198, 0.05);
+      border: 2px solid var(--case-border);
+      padding: clamp(28px, 3.6vmin, 48px);
+      position: relative;
+      overflow: hidden;
+    }
+    #console::before {
       content: '';
       position: absolute;
       inset: 0;
       border-radius: inherit;
-      border: 1px solid rgba(118, 126, 162, 0.22);
-      mix-blend-mode: lighten;
-      opacity: 0.6;
+      background: radial-gradient(circle at 18% 22%, rgba(111, 232, 255, 0.18), transparent 55%),
+        radial-gradient(circle at 82% 80%, rgba(250, 197, 96, 0.16), transparent 65%);
+      pointer-events: none;
+      mix-blend-mode: screen;
     }
     #grid {
-      width: clamp(280px, 92vw, 1280px);
+      position: relative;
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-      grid-auto-rows: minmax(260px, 1fr);
-      gap: clamp(18px, 3vmin, 32px);
-      padding: clamp(24px, 3.6vmin, 44px);
+      grid-auto-rows: minmax(240px, 1fr);
+      gap: var(--grid-gap);
+      padding: clamp(12px, 2vmin, 28px);
     }
     prompt-controller {
       width: 100%;
@@ -68,82 +80,81 @@ export class PromptDjMidi extends LitElement {
     play-pause-button {
       position: relative;
       width: clamp(112px, 12vmin, 140px);
-      margin-top: clamp(16px, 4vmin, 28px);
+    }
+    #controls {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 12px;
+      padding-inline: clamp(12px, 2vmin, 18px);
     }
     #buttons {
-      position: absolute;
-      top: clamp(32px, 6vmin, 68px);
-      left: clamp(40px, 11vw, 140px);
-      padding: 10px 14px;
-      border-radius: 999px;
       display: flex;
       gap: 12px;
       align-items: center;
-      background: rgba(20, 24, 34, 0.72);
-      border: 1px solid rgba(118, 126, 162, 0.28);
-      box-shadow: 0 18px 40px rgba(0, 0, 0, 0.45);
-      backdrop-filter: blur(18px);
+      padding: 8px 12px;
+      border-radius: 999px;
+      background: linear-gradient(145deg, rgba(17, 54, 78, 0.85), rgba(10, 36, 53, 0.9));
+      border: 1px solid rgba(104, 173, 211, 0.35);
+      box-shadow: inset 0 0 0 1px rgba(152, 220, 246, 0.08), 0 14px 34px rgba(0, 12, 20, 0.45);
     }
     button {
       font: inherit;
       font-weight: 600;
       cursor: pointer;
-      color: var(--text-primary);
-      background: linear-gradient(140deg, rgba(254, 109, 77, 0.16), rgba(254, 77, 146, 0.18));
+      letter-spacing: 0.08em;
+      color: var(--accent-amber);
+      background: linear-gradient(140deg, rgba(60, 176, 220, 0.12), rgba(247, 125, 221, 0.1));
       -webkit-font-smoothing: antialiased;
-      border: 1px solid rgba(254, 109, 77, 0.45);
+      border: 1px solid rgba(141, 213, 241, 0.35);
       border-radius: 999px;
       user-select: none;
-      padding: 6px 16px;
+      padding: 6px 18px;
       transition: transform 0.25s ease, box-shadow 0.25s ease, background 0.25s ease;
       &.active {
-        background: linear-gradient(150deg, var(--accent-orange), var(--accent-pink));
-        color: #0f0f15;
-        box-shadow: 0 12px 24px rgba(254, 109, 77, 0.35);
+        background: linear-gradient(150deg, var(--accent-amber), var(--accent-cyan));
+        color: #021017;
+        box-shadow: 0 12px 24px rgba(111, 232, 255, 0.35);
       }
       &:hover {
         transform: translateY(-1px);
-        box-shadow: 0 14px 22px rgba(254, 109, 77, 0.24);
+        box-shadow: 0 14px 22px rgba(111, 232, 255, 0.24);
       }
     }
     select {
       font: inherit;
       padding: 6px 36px 6px 14px;
-      background: rgba(20, 24, 34, 0.92);
+      background: rgba(9, 32, 48, 0.92);
       color: var(--text-primary);
       border-radius: 999px;
-      border: 1px solid rgba(118, 126, 162, 0.28);
+      border: 1px solid rgba(97, 164, 198, 0.3);
       outline: none;
       cursor: pointer;
       appearance: none;
-      background-image: linear-gradient(45deg, transparent 40%, rgba(254, 77, 146, 0.9) 40%),
-        linear-gradient(135deg, rgba(254, 109, 77, 0.9) 60%, transparent 60%);
+      background-image: linear-gradient(45deg, transparent 40%, rgba(111, 232, 255, 0.8) 40%),
+        linear-gradient(135deg, rgba(250, 197, 96, 0.9) 60%, transparent 60%);
       background-position: calc(100% - 22px) center, calc(100% - 14px) center;
       background-size: 8px 8px, 8px 8px;
       background-repeat: no-repeat;
       transition: border-color 0.2s ease, box-shadow 0.2s ease;
       &:focus {
-        border-color: rgba(254, 109, 77, 0.6);
-        box-shadow: 0 0 0 3px rgba(254, 109, 77, 0.2);
+        border-color: rgba(111, 232, 255, 0.6);
+        box-shadow: 0 0 0 3px rgba(111, 232, 255, 0.2);
       }
     }
     @media (max-width: 1024px) {
       :host {
-        padding: clamp(24px, 7vmin, 56px);
+        padding: clamp(32px, 9vmin, 72px);
       }
-      #buttons {
-        left: clamp(32px, 6vw, 64px);
+      #console {
+        padding: clamp(22px, 4.6vmin, 36px);
       }
     }
     @media (max-width: 720px) {
-      #background {
-        height: calc(100% - clamp(120px, 16vmin, 180px));
-      }
-      #buttons {
-        position: static;
-        align-self: stretch;
+      #controls {
         justify-content: center;
-        margin-bottom: 12px;
+        gap: 16px;
       }
       play-pause-button {
         margin-top: 8px;
@@ -195,35 +206,6 @@ export class PromptDjMidi extends LitElement {
     );
   }
 
-  /** Generates radial gradients for each prompt based on weight and color. */
-  private readonly makeBackground = throttle(
-    () => {
-      const clamp01 = (v: number) => Math.min(Math.max(v, 0), 1);
-
-      const MAX_WEIGHT = 0.5;
-      const MAX_ALPHA = 0.6;
-
-      const bg: string[] = [];
-
-      [...this.prompts.values()].forEach((p, i) => {
-        const alphaPct = clamp01(p.weight / MAX_WEIGHT) * MAX_ALPHA;
-        const alpha = Math.round(alphaPct * 0xff)
-          .toString(16)
-          .padStart(2, '0');
-
-        const stop = p.weight / 2;
-        const x = (i % 4) / 3;
-        const y = Math.floor(i / 4) / 3;
-        const s = `radial-gradient(circle at ${x * 100}% ${y * 100}%, ${p.color}${alpha} 0px, ${p.color}00 ${stop * 100}%)`;
-
-        bg.push(s);
-      });
-
-      return bg.join(', ');
-    },
-    30, // don't re-render more than once every XXms
-  );
-
   private toggleShowMidi() {
     return this.setShowMidi(!this.showMidi);
   }
@@ -257,21 +239,23 @@ export class PromptDjMidi extends LitElement {
   }
 
   override render() {
-    const bg = styleMap({
-      backgroundImage: this.makeBackground(),
-    });
-    return html`<div id="background" style=${bg}></div>
-      <div id="buttons">
-        <button
-          @click=${this.toggleShowMidi}
-          class=${this.showMidi ? 'active' : ''}
-          >MIDI</button
-        >
-        <select
-          @change=${this.handleMidiInputChange}
-          .value=${this.activeMidiInputId || ''}
-          style=${this.showMidi ? '' : 'visibility: hidden'}>
-          ${this.midiInputIds.length > 0
+    return html`<h1>The Oscilloscope Deck</h1>
+      <p class="subheading">
+        Route your prompts through a retro waveform console. Dial the gain, trigger the mix, and jam.
+      </p>
+      <div id="console">
+        <div id="controls">
+          <div id="buttons">
+            <button
+              @click=${this.toggleShowMidi}
+              class=${this.showMidi ? 'active' : ''}
+              >MIDI</button
+            >
+            <select
+              @change=${this.handleMidiInputChange}
+              .value=${this.activeMidiInputId || ''}
+              style=${this.showMidi ? '' : 'visibility: hidden'}>
+              ${this.midiInputIds.length > 0
         ? this.midiInputIds.map(
           (id) =>
             html`<option value=${id}>
@@ -279,10 +263,12 @@ export class PromptDjMidi extends LitElement {
                   </option>`,
         )
         : html`<option value="">No devices found</option>`}
-        </select>
-      </div>
-      <div id="grid">${this.renderPrompts()}</div>
-      <play-pause-button .playbackState=${this.playbackState} @click=${this.playPause}></play-pause-button>`;
+            </select>
+          </div>
+          <play-pause-button .playbackState=${this.playbackState} @click=${this.playPause}></play-pause-button>
+        </div>
+        <div id="grid">${this.renderPrompts()}</div>
+      </div>`;
   }
 
   private renderPrompts() {
